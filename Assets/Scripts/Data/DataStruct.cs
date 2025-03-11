@@ -44,7 +44,7 @@ namespace UDEV.PlatfromGame
     public enum SpriteOrder
     {
         Normal = 5,
-        InWater = 2,
+        InWater = 1,
     }
     public enum PlayerAnimState
     {
@@ -84,7 +84,7 @@ namespace UDEV.PlatfromGame
         InWater,
         None
     }
-    public enum Collectable
+    public enum CollectableType
     {
         Hp,
         Live,

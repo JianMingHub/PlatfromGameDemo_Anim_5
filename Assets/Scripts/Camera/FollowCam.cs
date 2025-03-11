@@ -6,7 +6,7 @@ namespace UDEV.PlatfromGame
 {
     public class FollowCam : MonoBehaviour
     {
-        // public Direction dir;
+        public Direction dir;
         private Camera m_cam;
         private Vector3 m_startingPos;
         private Vector2 m_camSize;
@@ -20,7 +20,7 @@ namespace UDEV.PlatfromGame
 
         private void Update()
         {
-            /*
+            
             switch(dir)
             {
                 case Direction.Up:
@@ -61,7 +61,6 @@ namespace UDEV.PlatfromGame
                             );
                     break;
             }
-            */    
         }
     }
 }

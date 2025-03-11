@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disable: 0
-  detectMethod: 0
+  detectMethod: 1
   targetLayer:
     serializedVersion: 2
     m_Bits: 256

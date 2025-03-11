@@ -48,14 +48,14 @@ namespace UDEV.PlatfromGame
                 m_isDetected = col != null;         // Nếu có một collider nằm trong vùng tròn, m_isDetected là true. Ngược lại, là false.
             }
 
-            if (m_isDetected)
-            {
-                Debug.Log("Player was detected!.");
-            }
-            else
-            {
-                Debug.Log("Player not detected!.");
-            }
+            // if (m_isDetected)
+            // {
+            //     Debug.Log("Player was detected!.");
+            // }
+            // else
+            // {
+            //     Debug.Log("Player not detected!.");
+            // }
         }
 
         private void OnDrawGizmos()

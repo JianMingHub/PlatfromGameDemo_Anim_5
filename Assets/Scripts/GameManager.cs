@@ -8,9 +8,17 @@ namespace UDEV.PlatfromGame
     {
         public GamePlaySetting setting;
         public Player player;
+        public FreeParallax map;
         public override void Awake()
         {
             MakeSingleton(false);
+        }
+        public void SetMapSpeed (float speed) 
+        {
+            if (map)
+            {
+                map.Speed = speed;
+            }
         }
     }
 }

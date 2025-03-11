@@ -71,6 +71,23 @@ namespace UDEV.PlatfromGame
         }
         private void Update()
         {
+            // Debug.Log("Layer hiện tại: " + gameObject.layer);
+            if (sp)
+            {
+                if (obstacleChker.IsOnWater)
+                {
+                    sp.sortingOrder = (int)SpriteOrder.InWater;
+                }
+                else
+                {
+                    sp.sortingOrder = (int)SpriteOrder.Normal;
+                }
+            }
+            if (IsDead)
+            {
+                gameObject.layer = deadLayer;
+                GameManager.Ins.SetMapSpeed(0f);
+            }
             ActionHandle();
         }
         private void FixedUpdate()
@@ -83,6 +100,7 @@ namespace UDEV.PlatfromGame
 
             if (GamepadController.Ins.IsStatic)
             {
+                GameManager.Ins.SetMapSpeed(0f);
                 m_rb.velocity = new Vector2(0f, m_rb.velocity.y);
             }
             // Nếu Player chạm vào thang và trạng thái hiện tại khác với trạng thái LadderIdle và trạng thái hiện tại khác với OnLadder
@@ -102,6 +120,7 @@ namespace UDEV.PlatfromGame
         protected override void Dead()
         {
             if (IsDead) return;
+            base.Dead();
             ChangeState(PlayerAnimState.Dead);
         }
         private void Move(Direction dir)
@@ -116,7 +135,14 @@ namespace UDEV.PlatfromGame
                 m_hozDir = dir == Direction.Left ? -1 : 1;
                 // Debug.Log("m_hozDir: " + m_hozDir);
                 m_rb.velocity = new Vector2(m_hozDir * m_curSpeed, m_rb.velocity.y);
-
+                if (CameraFollow.ins.IsHozStuck)
+                {
+                    GameManager.Ins.SetMapSpeed(0f);
+                }
+                else
+                {
+                    GameManager.Ins.SetMapSpeed(-m_hozDir * m_curSpeed);
+                }
             }
             else if (dir == Direction.Up || dir == Direction.Down)
             {
@@ -236,7 +262,7 @@ namespace UDEV.PlatfromGame
         public void ChangeState(PlayerAnimState state)
         {
             m_prevState = m_fsm.State;
-            m_fsm.ChangeState(state);           // Thay đổi trạng thái mới bằng cách gọi m_fsm.ChangeState(state).
+            m_fsm.ChangeState(state);
         }
         private IEnumerator ChangeStateDelayCo(PlayerAnimState newState, float timeExtra = 0)
         {
@@ -329,10 +355,10 @@ namespace UDEV.PlatfromGame
             {
                 // Xử lý việc thu thập các item Collectable
                 Collectable collectable = col.GetComponent<Collectable>();
-                // if (collectable)
-                // {
-                //     collectable.Trigger();
-                // }
+                if (collectable)
+                {
+                    collectable.Trigger();
+                }
             }
             // khi va chạm với cửa
             if (col.CompareTag(GameTag.Door.ToString()))
@@ -510,7 +536,9 @@ namespace UDEV.PlatfromGame
                 Helper.PlayAnim(m_anim, PlayerAnimState.OnLadder.ToString()); 
             } 
             private void OnLadder_Exit() { } 
-            private void Dead_Enter() { } 
+            private void Dead_Enter() { 
+                CamShake.ins.ShakeTrigger(0.7f, 0.1f);
+            } 
             private void Dead_Update() { 
                 Helper.PlayAnim(m_anim, PlayerAnimState.Dead.ToString()); 
             } 
